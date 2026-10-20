@@ -1,5 +1,7 @@
 package domain;
 
+import presentation.GamePanel;
+
 public class Ball {
     private int xPosition;
     private int yPosition;
@@ -18,6 +20,13 @@ public class Ball {
     }
 
     public void move(){
+        if(xPosition + diameter > GamePanel.SCREEN_WIDHT || xPosition < 0){
+            xVelocity = -xVelocity;
+        }
+        if(yPosition + diameter > GamePanel.SCREEN_HEIGHT || yPosition < 0){
+            yVelocity = -yVelocity;
+        }
+
         xPosition += xVelocity;
         yPosition += yVelocity;
     }
