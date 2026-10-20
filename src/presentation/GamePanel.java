@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable{
         int yV = Utilidades.randomNumberInARange(-5, 5);
 
 
-        ball = new Ball((int) SCREEN_WIDHT/2, (int) SCREEN_HEIGHT/2, xV, yV, DIAMETER);
+        ball = new Ball(650,350, 70, -20, DIAMETER);
         this.setPreferredSize(SIZE);
 
         gameThread = new Thread(this);
