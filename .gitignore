@@ -1,0 +1,18 @@
+# Archivos compilados
+bin/
+out/
+*.class
+
+# Logs de la JVM
+*.log
+hs_err_pid*
+
+# VS Code (se conserva settings.json porque define src, bin y lib del proyecto)
+.vscode/*
+!.vscode/settings.json
+
+
+# Sistema operativo
+Thumbs.db
+desktop.ini
+.DS_Store
