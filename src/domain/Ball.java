@@ -3,58 +3,76 @@ package domain;
 import presentation.GamePanel;
 
 public class Ball {
-    public static final double GRAVITY = -0.5;
+    public static final double GRAVITY = -0;
     public static final double WALL_FRICTION = 0.8;
-    public static final double AIR_FRICTION = 0.99;
+    public static final double AIR_FRICTION = 1;
     public static final double FLOOR_FRICTION = 0.55;
 
 
     private double xPosition;
     private double yPosition;
-    private double xVelocity;
-    private double yVelocity;
+    private Vector2D velocity;
     private int diameter;
 
     public Ball(int xPosition, int yPosition, int xVelocity, int yVelocity, int diameter){
         this.xPosition = xPosition;
         this.yPosition = yPosition;
-        this.xVelocity = xVelocity;
-        this.yVelocity = yVelocity;
+        velocity = new Vector2D(xVelocity, yVelocity);
         this.diameter = diameter;
     }
 
     public void move(){
-        xPosition += xVelocity;
-        yPosition += yVelocity;
+        xPosition += velocity.getX();
+        yPosition += velocity.getY();
 
         if(xPosition + diameter > GamePanel.SCREEN_WIDHT){
             xPosition = GamePanel.SCREEN_WIDHT - diameter;
-            xVelocity = -xVelocity * WALL_FRICTION;
+            velocity.setX(velocity.getX() * -WALL_FRICTION);
         }else if(xPosition < 0){
             xPosition = 0;
-            xVelocity = -xVelocity * WALL_FRICTION;
+            velocity.setX(velocity.getX() * -WALL_FRICTION);
         }else{
-            xVelocity *= 0.99;
-            if (Math.abs(xVelocity) < 1.9) xVelocity = 0;
+            velocity.setX(velocity.getX() * AIR_FRICTION);
+
+            if (Math.abs(velocity.getX()) < 1.9) velocity.setX(0);
         }
 
 
         if (yPosition + diameter > GamePanel.SCREEN_HEIGHT) {
             yPosition = GamePanel.SCREEN_HEIGHT - diameter;  
-                if (Math.abs(yVelocity) < 1) {
-                    yVelocity = 0;                
+                if (Math.abs(velocity.getY()) < 1) {
+                    velocity.setY(0);                
                 } else {
-                    yVelocity = -yVelocity * FLOOR_FRICTION;
+                    velocity.setY(velocity.getY() * -FLOOR_FRICTION);
                 }
         } else if (yPosition < 0) {
-            yPosition = 0;                                  
-            yVelocity = -yVelocity;
+            yPosition = 0;  
+            velocity.setY(-velocity.getY());                                
         } else {
-            yVelocity -= GRAVITY;
+            velocity.setY(velocity.getY() - GRAVITY);
         }
     }
+
+    public Vector2D center(){
+        return new Vector2D(xPosition+diameter/2, yPosition+diameter/2);
+    }
+
+    public void translate(double dx, double dy){
+        xPosition += dx;
+        yPosition += dy;
+    }
+
+
     public void detectColission(){
 
+    }
+
+    public Vector2D getVelocity(){
+        return velocity;
+    }
+
+    public void setVelocity(Vector2D v){
+        this.velocity = v;
     }
 
     public int getXPosition(){
